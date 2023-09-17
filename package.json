@@ -1,0 +1,18 @@
+{
+  "name": "utf-transformer",
+  "version": "0.1.0",
+  "private": "true",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Szaroslav/utf-transformer.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jakub Szaredko (https://szaredko.com)",
+  "license": "ISC"
+}
