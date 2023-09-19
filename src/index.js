@@ -51,3 +51,11 @@ export function transform(text) {
     i++;
   }
 }
+
+const exampleCode = `
+  const someText = 'Yeah, it\\'s an example.';
+  const someFunction = () => "Really awesome!"; \\\\ Some comment.
+  console.log('Done.'); 
+`;
+
+transform(exampleCode);
