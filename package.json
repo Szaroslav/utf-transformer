@@ -14,5 +14,8 @@
   },
   "keywords": [],
   "author": "Jakub Szaredko (https://szaredko.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "js-tokens": "^8.0.2"
+  }
 }

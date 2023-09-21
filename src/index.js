@@ -1,3 +1,5 @@
+import jsTokens from 'js-tokens';
+
 const stringLiterals = {
   "\"": function (text, start) {
     let i = start + 1;
@@ -59,3 +61,5 @@ const exampleCode = `
 `;
 
 transform(exampleCode);
+
+console.log(Array.from(jsTokens(exampleCode)));
