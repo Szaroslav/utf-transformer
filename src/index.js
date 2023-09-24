@@ -1,65 +1,30 @@
 import jsTokens from 'js-tokens';
 
-const stringLiterals = {
-  "\"": function (text, start) {
-    let i = start + 1;
-    while (i < text.length) {
-      if (text[Math.max(i - 1, 0)] === "\\") {
-        i += 2;
-        continue;
-      }
-      if (text[i] === "\"") {
-        return [ start, i ];
-      }
-      i++;
-    }
-  },
-  "'": function (text, start) {
-    let i = start + 1;
-    while (i < text.length) {
-      if (text[Math.max(i - 1, 0)] === "\\") {
-        i += 2;
-        continue;
-      }
-      if (text[i] === "'") {
-        return [ start, i ];
-      }
-      i++;
-    }
-  },
-  "`": function (text, start) {
-
-  }
-};
-
 export function transform(text) {
-  const stringLiteralChars = Object.keys(stringLiterals);
-
-  let i = 0;
-  while (i < text.length) {
-    if (text[Math.max(i - 1, 0)] === "\\") {
-      i += 2;
+  for (const token of jsTokens(text)) {
+    if (token.type !== "StringLiteral" && token.type !== "IdentifierName") {
+      process.stdout.write(token.value);
       continue;
     }
-    for (const stringLiteralChar of stringLiteralChars) {
-      if (text[i] === stringLiteralChar) {
-        console.log(stringLiterals[stringLiteralChar]);
-        const [ start, end ] = stringLiterals[stringLiteralChar](text, i);
-        console.log(stringLiteralChar, start, end, text.slice(start, end + 1));
-        i = end;
-        break;
-      }
-    }
-    i++;
+
+    process.stdout.write(token.value
+      .split("")
+      .map(char => {
+        const codePoint = char.codePointAt(0);
+        if (codePoint < 128)
+          return char;
+        const codePointHex = codePoint.toString(16);
+        return '\\u' + '0'.repeat(4 - codePointHex.length) + codePointHex;
+      })
+      .join(""));
   }
 }
 
 const exampleCode = `
   const someText = 'Yeah, it\\'s an example.';
-  const someFunction = () => "Really awesome!"; \\\\ Some comment.
+  const someFunction = () => "Reallī awesome!"; // Some comment.
+  let π = 3.14;
   console.log('Done.'); 
 `;
 
 transform(exampleCode);
-
-console.log(Array.from(jsTokens(exampleCode)));
